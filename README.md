@@ -1,2 +1,2 @@
-# DroidTV7c
-DroidTV v7 rewrite
+# DroidTV7
+DroidTV v7 Refactor
