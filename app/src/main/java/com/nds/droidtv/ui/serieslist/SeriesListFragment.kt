@@ -1,4 +1,4 @@
-package com.nds.droidtv2.ui.serieslist
+package com.nds.droidtv.ui.serieslist
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.nds.droidtv2.models
+package com.nds.droidtv.models
 
 /**
  * Data about a season of episodes for a series

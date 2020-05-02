@@ -1,4 +1,4 @@
-package com.nds.droidtv2.models
+package com.nds.droidtv.models
 
 /**
  * List of Series returned by the most recent search request

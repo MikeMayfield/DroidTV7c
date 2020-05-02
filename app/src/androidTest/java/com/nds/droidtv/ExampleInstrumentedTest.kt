@@ -1,4 +1,4 @@
-package com.nds.droidtv2
+package com.nds.droidtv
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

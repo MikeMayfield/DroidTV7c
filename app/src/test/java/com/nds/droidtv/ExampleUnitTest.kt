@@ -1,4 +1,4 @@
-package com.nds.droidtv2
+package com.nds.droidtv
 
 import org.junit.Test
 

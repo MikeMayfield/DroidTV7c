@@ -1,4 +1,4 @@
-package com.nds.droidtv2
+package com.nds.droidtv
 
 /**
  * Repository used to access all database and network data. The repository coordinates data updates
