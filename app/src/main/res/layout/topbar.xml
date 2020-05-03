@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isRightMenuShow"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="isRightBtnShow"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="isLeftMenuShow"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="isTitleShow"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="topBarClickListener"
+            type="com.nds.droidtv.interfaces.TopBarClickListener" />
+
+    </data>
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:orientation="horizontal"
+        app:contentInsetStart="0dp"
+        app:layout_collapseMode="pin"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+        <LinearLayout
+            android:id="@+id/llTopbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:gravity="center_vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgLeftMenu"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:paddingHorizontal="8dp"
+                android:onClick="@{(v)->topBarClickListener.onTopBarClickListener(v,@string/top_bar_left_menu)}"
+                android:src="@drawable/menu_icon"
+                android:visibility="@{isLeftMenuShow ? View.VISIBLE : View.GONE , default=gone}" />
+
+            <TextView
+                android:id="@+id/title"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:visibility="@{isTitleShow ? View.VISIBLE : View.GONE , default=gone}"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgRightBtn"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:paddingHorizontal="8dp"
+                android:onClick="@{(v)->topBarClickListener.onTopBarClickListener(v,@string/top_bar_right_btn)}"
+                android:src="@drawable/casting_disabled"
+                android:visibility="@{isLeftMenuShow ? View.VISIBLE : View.GONE , default=gone}" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgRightMenu"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:paddingHorizontal="8dp"
+                android:onClick="@{(v)->topBarClickListener.onTopBarClickListener(v,@string/top_bar_right_menu)}"
+                android:src="@drawable/menu_vertical"
+                android:visibility="@{isLeftMenuShow ? View.VISIBLE : View.GONE , default=gone}" />
+
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+</layout>

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">DroidTV</string>
+
+    <string name="top_bar_left_menu">Left menu</string>
+    <string name="top_bar_right_menu">Right menu</string>
+    <string name="top_bar_right_btn">Right button</string>
+    <string name="series_list_top_bar_title">Primetime</string>
 </resources>

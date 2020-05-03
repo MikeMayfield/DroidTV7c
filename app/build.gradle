@@ -44,4 +44,6 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
     testImplementation 'android.arch.core:core-testing'
     testImplementation 'org.mockito:mockito-core:2.25.0'
+
+    implementation 'com.google.android.material:material:1.1.0'
 }
