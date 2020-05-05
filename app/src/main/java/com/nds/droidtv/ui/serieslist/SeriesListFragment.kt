@@ -6,9 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
+import android.widget.GridLayout
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide.init
+import com.nds.droidtv.adapters.SeriesListAdapter
 import com.nds.droidtv.interfaces.TopBarClickListener
 import com.nds.droidtv2.R
 import com.nds.droidtv2.databinding.SeriesListPortraitFragmentBinding
@@ -18,6 +24,7 @@ import com.nds.droidtv2.databinding.SeriesListPortraitFragmentBinding
  */
 class SeriesListFragment : Fragment() {
     private lateinit var binding: SeriesListPortraitFragmentBinding
+    private lateinit var adapter: SeriesListAdapter
 
     companion object {
         fun newInstance() = SeriesListFragment()
@@ -48,6 +55,16 @@ class SeriesListFragment : Fragment() {
         topbar.isRightMenuShow = true
         topbar.title.text = getString(R.string.series_list_top_bar_title)
         topbar.isTitleShow = true
+
+        adapter = SeriesListAdapter()
+        binding.rvSeriesList.layoutManager = GridLayoutManager(getActivity(), 4)
+        binding.rvSeriesList.adapter = adapter
+        adapter.setEventListener(object : SeriesListAdapter.EventListener {
+            override fun onItemClick(pos: Int) {
+                Toast.makeText(activity, "item $pos clicked.", Toast.LENGTH_SHORT).show()
+            }
+
+        })
     }
 
     inner class TopBarClickHandler : TopBarClickListener {
