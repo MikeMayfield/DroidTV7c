@@ -43,7 +43,7 @@ class SearchContext {
         get() = mutableSeriesList
 
     init {
-        //TODO: On background thread: Load saved settings from database. Perform search
+        //TODO: On background thread: Load saved settings from database. Save settings and perform search after setting all properties
     }
 
     /**
@@ -54,11 +54,15 @@ class SearchContext {
         CLASSIC,  //Classic TV (non-primetime)
         DVR,  //Recorded episodes on cloud DVR (My DVR)
         PLAYABLE,  //Playable episodes (Now Playing)
-        PRIMETIME  //Primetime (non-classic) episodes
+        PRIMETIME,  //Primetime (non-classic) episodes
+        NEW_SERIES  //Recently added series
     }
 
+    /**
+     * Save settings to database on background thread
+     */
     @VisibleForTesting fun saveSettings() {
-        //TODO: Save settings to database on background thread
+        //TODO: Implement
     }
 
     /**
@@ -69,54 +73,63 @@ class SearchContext {
                                              searchText: String,
                                              favoritesFilterIsEnabled: Boolean,
                                              playableFilterIsEnabled: Boolean) {
-        //TODO: Replace this mocked behavior with actual search using database
-        val searchResult = mockSeriesList
-            .filter { mockSearchFilter(it, category, searchText, favoritesFilterIsEnabled, playableFilterIsEnabled) }
+        val searchResult = searchSeries(category, searchText)
+            .filter { searchFilter(it, category, searchText, favoritesFilterIsEnabled, playableFilterIsEnabled) }
             .sortedBy { it.sortableTitle }
         mutableSeriesList.postValue(searchResult)
     }
 
-    //TODO: Remove this after implementation
-    private fun mockSearchFilter(series: Series,
-                                 category: SearchCategory,
-                                 searchText: String,
-                                 favoritesFilterIsEnabled: Boolean,
-                                 playableFilterIsEnabled: Boolean) : Boolean {
-        var result = true  //Series is included unless it fails any our our exclusion tests
+    /**
+     * Search database for all Series in category
+     */
+    private fun searchSeries(category: SearchCategory, searchText: String) : List<Series> {
+        return mockSeriesList          //TODO: Replace this mocked behavior with actual search
+    }
+
+    /**
+     * Filter Series list by favorites and playable filters. Note that playable filter is implied for PLAYABLE category
+     */
+    private fun searchFilter(series: Series,
+                             category: SearchCategory,
+                             searchText: String,
+                             favoritesFilterIsEnabled: Boolean,
+                             playableFilterIsEnabled: Boolean) : Boolean {
+        val forcedPlayableFilterIsEnabled =
+            if (category == SearchCategory.PLAYABLE) true
+            else playableFilterIsEnabled
+        var seriesShouldBeIncluded = !(favoritesFilterIsEnabled && !series.isFavorite) &&
+                !(forcedPlayableFilterIsEnabled && series.numberOfPlayableRecordings == 0)  //Series is included unless it fails our filters
 
         when (category) {
-            SearchCategory.ALL -> {
-                result = result && !(favoritesFilterIsEnabled && !series.isFavorite)
-                result = result && !(playableFilterIsEnabled && series.numberOfPlayableRecordings == 0)
-            }
             SearchCategory.CLASSIC -> {
-                result = result && !(favoritesFilterIsEnabled && !series.isFavorite)
-                result = result && !(playableFilterIsEnabled && series.numberOfPlayableRecordings == 0)
-                result = result && !series.isPrimetime
+                seriesShouldBeIncluded = seriesShouldBeIncluded && !series.isPrimetime
             }
             SearchCategory.DVR -> {
-                result = result && !(favoritesFilterIsEnabled && !series.isFavorite)
-                result = result && !(playableFilterIsEnabled && series.numberOfPlayableRecordings == 0)
-                result = result && series.numberOfRecordings > 0
-            }
-            SearchCategory.PLAYABLE -> {
-                result = result && !(favoritesFilterIsEnabled && !series.isFavorite)
-                result = result && series.numberOfPlayableRecordings > 0
+                seriesShouldBeIncluded = seriesShouldBeIncluded && series.numberOfRecordings > 0
             }
             SearchCategory.PRIMETIME -> {
-                result = result && !(favoritesFilterIsEnabled && !series.isFavorite)
-                result = result && !(playableFilterIsEnabled && series.numberOfPlayableRecordings == 0)
-                result = result && series.isPrimetime
+                seriesShouldBeIncluded = seriesShouldBeIncluded && series.isPrimetime
             }
         }
 
-        return result
+        return seriesShouldBeIncluded
     }
 
     //TODO: Remove this after implementation
     private val mockSeriesList = arrayListOf(
-        Series(3, "Series 3", isFavorite = true, newEpisodesShouldBeRecorded = true, numberOfRecordings = 10, numberOfPlayableRecordings = 2),
-        Series(1, "Series 1", isFavorite = true),
+        Series(3, "Series 3", isFavorite = true, newEpisodesShouldBeRecorded = true,
+            numberOfRecordings = 10, numberOfPlayableRecordings = 2,
+            seasons = arrayListOf<Season>(Season(1,
+                arrayListOf(
+                    Episode(1, 3, 1, 1, "Series 3, Season 1, Episode 1",
+                        description = "This is the description of S1E1. It is several lines long so that it needs to be ellipsized when collapsed.  It is several lines long so that it needs to be ellipsized when collapsed."),
+                    Episode(2, 3, 1, 2, "Series 3, Season 1, Episode 2")
+                )))),
+        Series(1, "Series 1", isFavorite = true,
+            seasons = arrayListOf<Season>(Season(1,
+                arrayListOf(
+                    Episode(1, 1, 1, 1, "Series 1, Season 1, Episode 1")
+                )))),
         Series(2, "Series 2", isFavorite = true, isPrimetime = false),
         Series(4, "Series 4", isFavorite = false),
         Series(5, "Series 5", isFavorite = false)
