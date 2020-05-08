@@ -23,6 +23,37 @@ internal class SearchContextTest {
     }
 
     @Test
+    fun `searchSeries Returns full list if not search tokens`() {
+        //WHEN
+        val result = searchContext.getSeriesListFromDb(SearchCategory.ALL, "")
+
+        //THEN
+        assertEquals(searchContext.mockSeriesList.size, result.size)
+    }
+
+    @Test
+    fun `searchSeries Returns partial list if search tokens`() {
+        //WHEN
+        val resultSeries = searchContext.getSeriesListFromDb(SearchCategory.ALL, "series")
+        val result1 = searchContext.getSeriesListFromDb(SearchCategory.ALL, "4")
+        val result2 = searchContext.getSeriesListFromDb(SearchCategory.ALL, "4 5")
+
+        //THEN
+        assertEquals(3, resultSeries.size)
+        assertEquals(1, result1.size)
+        assertEquals(2, result2.size)
+    }
+
+    @Test
+    fun `searchSeries Returns empty list if no search tokens match`() {
+        //WHEN
+        val result = searchContext.getSeriesListFromDb(SearchCategory.ALL, "**NOMATCH**")
+
+        //THEN
+        assertEquals(0, result.size)
+    }
+
+    @Test
     fun `performSearch Returns proper results when just category changed`() {
         //GIVEN
 
@@ -43,7 +74,7 @@ internal class SearchContextTest {
         //THEN
         assertEquals(5, allResult.size)
         assertEquals(1, classicResult.size)
-        assertEquals(1, dvrResult.size)
+        assertEquals(2, dvrResult.size)
         assertEquals(1, playableResult.size)
         assertEquals(4, primetimeResult.size)
         assertEquals(5, allResult.size)
