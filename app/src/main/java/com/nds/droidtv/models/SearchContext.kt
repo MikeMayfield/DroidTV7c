@@ -3,11 +3,14 @@ package com.nds.droidtv.models
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.nds.droidtv.database.MockSeriesData
 
 /**
  * Search parameters
  */
 class SearchContext {
+    @VisibleForTesting val mockSeriesList = MockSeriesData().seriesData()  //TODO Remove when no longer mocking database data
+
     private var mutableSeriesList = MutableLiveData<List<Series>>()
 
     //Public properties
@@ -73,8 +76,8 @@ class SearchContext {
                                              searchText: String,
                                              favoritesFilterIsEnabled: Boolean,
                                              playableFilterIsEnabled: Boolean) {
-        val searchResult = searchSeries(category, searchText)
-            .filter { searchFilter(it, category, searchText, favoritesFilterIsEnabled, playableFilterIsEnabled) }
+        val searchResult = getSeriesListFromDb(category, searchText)
+            .filter { includeOnlySeriesThatMeetFilters(it, category, favoritesFilterIsEnabled, playableFilterIsEnabled) }
             .sortedBy { it.sortableTitle }
         mutableSeriesList.postValue(searchResult)
     }
@@ -82,18 +85,32 @@ class SearchContext {
     /**
      * Search database for all Series in category
      */
-    private fun searchSeries(category: SearchCategory, searchText: String) : List<Series> {
-        return mockSeriesList          //TODO: Replace this mocked behavior with actual search
+    @VisibleForTesting fun getSeriesListFromDb(category: SearchCategory, searchText: String) : List<Series> {
+        //TODO: Replace this mocked behavior with actual search
+        if (searchText.isNullOrBlank()) {
+            return mockSeriesList
+        } else {
+            val searchTokens = searchText.trim().split(Regex("\\s"))
+            return mockSeriesList.filter {
+                var includeInList = false
+                for (token in searchTokens) {
+                    if (it.title.contains(token, true)) {
+                        includeInList = true
+                        break
+                    }
+                }
+                includeInList
+            }
+        }
     }
 
     /**
      * Filter Series list by favorites and playable filters. Note that playable filter is implied for PLAYABLE category
      */
-    private fun searchFilter(series: Series,
-                             category: SearchCategory,
-                             searchText: String,
-                             favoritesFilterIsEnabled: Boolean,
-                             playableFilterIsEnabled: Boolean) : Boolean {
+    private fun includeOnlySeriesThatMeetFilters(series: Series,
+                                                 category: SearchCategory,
+                                                 favoritesFilterIsEnabled: Boolean,
+                                                 playableFilterIsEnabled: Boolean) : Boolean {
         val forcedPlayableFilterIsEnabled =
             if (category == SearchCategory.PLAYABLE) true
             else playableFilterIsEnabled
@@ -114,24 +131,4 @@ class SearchContext {
 
         return seriesShouldBeIncluded
     }
-
-    //TODO: Remove this after implementation
-    private val mockSeriesList = arrayListOf(
-        Series(3, "Series 3", isFavorite = true, newEpisodesShouldBeRecorded = true,
-            numberOfRecordings = 10, numberOfPlayableRecordings = 2,
-            seasons = arrayListOf<Season>(Season(1,
-                arrayListOf(
-                    Episode(1, 3, 1, 1, "Series 3, Season 1, Episode 1",
-                        description = "This is the description of S1E1. It is several lines long so that it needs to be ellipsized when collapsed.  It is several lines long so that it needs to be ellipsized when collapsed."),
-                    Episode(2, 3, 1, 2, "Series 3, Season 1, Episode 2")
-                )))),
-        Series(1, "Series 1", isFavorite = true,
-            seasons = arrayListOf<Season>(Season(1,
-                arrayListOf(
-                    Episode(1, 1, 1, 1, "Series 1, Season 1, Episode 1")
-                )))),
-        Series(2, "Series 2", isFavorite = true, isPrimetime = false),
-        Series(4, "Series 4", isFavorite = false),
-        Series(5, "Series 5", isFavorite = false)
-    )
 }

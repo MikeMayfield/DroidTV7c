@@ -15,10 +15,15 @@ data class Series(
    var nextPlayableEpisodeId: Int = 0,  //ID for next episode to play; 0=None
    var numberOfRecordings: Int = 0,  //Number of episodes recorded or pending recording
    var numberOfPlayableRecordings: Int = 0,  //Number of recorded episodes downloaded and ready to play
-   val posterId: Int = 0,  //Unique ID of the poster to display for the series. Identifies both the low and high res versions
+   val posterId: Int = seriesId,  //Unique ID of the poster to display for the series. Identifies both the low and high res versions
    var currentSeasonIdx: Int = 0,  //Index in the seasons list of the season to display
    val seasons: ArrayList<Season> = arrayListOf(),  //List of seasons, in ascending season number order
    var selectedSeasonIdx: Int = 0,  //Last saved index into the seasons collection from the UI
    val imdbId: Int = 0,  //ID of the series in IMDB; 0=None
    var relatedSeries: ArrayList<Series> = arrayListOf()  //List of related series
-)
+) {
+   val posterUri: String
+      get() = "http://209.95.38.52/Posters/$posterId.jpg"
+   val posterPlaceholderUri: String
+      get() = "file:///assets/$posterId.jpg"  //TODO Use the proper download directory for URI
+}

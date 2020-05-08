@@ -16,12 +16,13 @@ data class Episode(
     var watchedPct: Int = 0,  //Estimated percentage watched
     val firstAiredDate: String = "Unknown",  //Date the episode first aired, in mmm dd, yyyy format
     val ratingId: Rating = Rating.TV_PG,  //ID of the ratings icon
-    val durationSecs: Int = 0,  //Length of episode, in seconds
-    val thumbnailUrl: String = ""  //URL of the episode thumbnail
+    val durationSecs: Int = 0  //Length of episode, in seconds
 ) {
 
     val shouldDownloadWhenRecorded  //Flag: The episode should download when recording completes
         get() = downloadPriority != 0
+
+    val thumbnailUrl = "http://209.95.38.52/Posters/$episodeId.jpg"
 
     /**
      * Status of episode recording
