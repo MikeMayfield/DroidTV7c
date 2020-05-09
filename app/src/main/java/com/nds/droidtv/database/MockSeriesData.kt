@@ -3,9 +3,10 @@ package com.nds.droidtv.database
 import com.nds.droidtv.models.Episode
 import com.nds.droidtv.models.Season
 import com.nds.droidtv.models.Series
+import java.util.ArrayList
 
-class MockSeriesData {
-    fun seriesData() : List<Series> {
+object MockSeriesData {
+    fun seriesData() : ArrayList<Series> {
         val mockSeriesList = arrayListOf(
             Series(1,
                 title="NCIS",

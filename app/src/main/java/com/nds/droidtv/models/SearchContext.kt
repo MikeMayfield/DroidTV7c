@@ -9,7 +9,7 @@ import com.nds.droidtv.database.MockSeriesData
  * Search parameters
  */
 class SearchContext {
-    @VisibleForTesting val mockSeriesList = MockSeriesData().seriesData()  //TODO Remove when no longer mocking database data
+    @VisibleForTesting val mockSeriesList = MockSeriesData.seriesData()  //TODO Remove when no longer mocking database data
 
     private var mutableSeriesList = MutableLiveData<List<Series>>()
 

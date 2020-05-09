@@ -56,8 +56,8 @@ class SeriesListFragment : Fragment() {
         topbar.title.text = getString(R.string.series_list_top_bar_title)
         topbar.isTitleShow = true
 
-        adapter = SeriesListAdapter()
-        binding.rvSeriesList.layoutManager = GridLayoutManager(getActivity(), 4)
+        adapter = SeriesListAdapter(requireContext())
+        binding.rvSeriesList.layoutManager = GridLayoutManager(activity, 4)
         binding.rvSeriesList.adapter = adapter
         adapter.setEventListener(object : SeriesListAdapter.EventListener {
             override fun onItemClick(pos: Int) {
