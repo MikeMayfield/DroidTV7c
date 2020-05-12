@@ -1,36 +1,28 @@
 package com.nds.droidtv.ui.serieslist
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
-import android.widget.GridLayout
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide.init
 import com.nds.droidtv.adapters.SeriesListAdapter
 import com.nds.droidtv.interfaces.TopBarClickListener
+import com.nds.droidtv.models.Series
 import com.nds.droidtv2.R
 import com.nds.droidtv2.databinding.SeriesListPortraitFragmentBinding
+import java.util.ArrayList
 
-/**
- * Fragment for SeriesListView
- */
-class SeriesListFragment : Fragment() {
+class SeriesListFragment : Fragment() , SeriesListViewModelCallback {
     private lateinit var binding: SeriesListPortraitFragmentBinding
-    private lateinit var adapter: SeriesListAdapter
+    private lateinit var seriesAdapter: SeriesListAdapter
 
     companion object {
         fun newInstance() = SeriesListFragment()
     }
 
-    private lateinit var viewModel: SeriesListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +34,7 @@ class SeriesListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SeriesListViewModel::class.java)
+        SeriesListViewModel(this).loadData()
         init()
     }
 
@@ -56,12 +48,18 @@ class SeriesListFragment : Fragment() {
         topbar.title.text = getString(R.string.series_list_top_bar_title)
         topbar.isTitleShow = true
 
-        adapter = SeriesListAdapter(requireContext())
-        binding.rvSeriesList.layoutManager = GridLayoutManager(activity, 4)
-        binding.rvSeriesList.adapter = adapter
-        adapter.setEventListener(object : SeriesListAdapter.EventListener {
+        binding.rvSeriesList.apply {
+            layoutManager = GridLayoutManager(activity, 4)
+            adapter = seriesAdapter
+        }
+
+        seriesAdapter.setEventListener(object : SeriesListAdapter.EventListener {
             override fun onItemClick(pos: Int) {
                 Toast.makeText(activity, "item $pos clicked.", Toast.LENGTH_SHORT).show()
+            }
+            override fun onItemLongPress(pos: Int) {
+                Toast.makeText(activity, "item $pos pressed.", Toast.LENGTH_SHORT).show()
+
             }
 
         })
@@ -75,5 +73,9 @@ class SeriesListFragment : Fragment() {
                 getString(R.string.top_bar_right_btn) -> Toast.makeText(activity, "right button clicked!", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onDataFetched(series: ArrayList<Series>) {
+        seriesAdapter = SeriesListAdapter(series)
     }
 }

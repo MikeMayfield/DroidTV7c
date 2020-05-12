@@ -1,26 +1,25 @@
 package com.nds.droidtv.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.nds.droidtv.database.MockSeriesData
 import com.nds.droidtv.models.Series
 import com.nds.droidtv2.R
 import com.nds.droidtv2.databinding.ItemSeriesListBinding
-import java.util.ArrayList
+import java.util.*
 
-class SeriesListAdapter(private val context: Context) : RecyclerView.Adapter<SeriesListAdapter.MyViewHolder>() {
+class SeriesListAdapter(series: ArrayList<Series>) : RecyclerView.Adapter<SeriesListAdapter.MyViewHolder>() {
 
     private lateinit var clickEventListener: EventListener
-    private var totalSeries: ArrayList<Series> = MockSeriesData.seriesData()
+    private var totalSeries: ArrayList<Series> = series
 
     inner class MyViewHolder(internal var binding: ItemSeriesListBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     interface EventListener {
         fun onItemClick(pos: Int)
+        fun onItemLongPress(pos: Int)
     }
 
     fun setEventListener(eventListener: EventListener) {
@@ -53,6 +52,10 @@ class SeriesListAdapter(private val context: Context) : RecyclerView.Adapter<Ser
         seriesPoster.numberOfRecordings = seriesObj.numberOfRecordings
         seriesPoster.numberOfPlayableRecordings = seriesObj.numberOfPlayableRecordings
 
+        seriesPoster.setOnLongClickListener {
+            clickEventListener.onItemLongPress(position)
+            true
+        }
         seriesPoster.setOnClickListener {
             clickEventListener.onItemClick(position)
         }
