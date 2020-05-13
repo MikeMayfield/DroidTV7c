@@ -1,8 +1,23 @@
 <resources>
     <string name="app_name">DroidTV</string>
 
+    // TopBar items
     <string name="top_bar_left_menu">Left menu</string>
     <string name="top_bar_right_menu">Right menu</string>
     <string name="top_bar_right_btn">Right button</string>
     <string name="series_list_top_bar_title">Primetime</string>
+    
+    // Dialog items
+    <string name="more_information">More information</string>
+    <string name="play_next_episode">Play next episode</string>
+    <string name="record_new_episodes">Record new episodes</string>
+    <string name="record_all_episodes">Record all episodes</string>
+    <string name="record_all_episodes_DVR">Record all episodes, keep on DVR</string>
+    <string name="record_new_episodes_DVR">Record new episodes, keep on DVR</string>
+    <string name="stop_recording_new_episodes">Stop recording new episodes</string>
+    <string name="stop_recording">Stop recording</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
+
+
 </resources>
