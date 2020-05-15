@@ -7,14 +7,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="isRightMenuShow"
-            type="java.lang.Boolean" />
-
-        <variable
-            name="isRightBtnShow"
-            type="java.lang.Boolean" />
-
-        <variable
             name="isLeftMenuShow"
             type="java.lang.Boolean" />
 
@@ -36,6 +28,8 @@
         android:background="@color/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:orientation="horizontal"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
         app:contentInsetStart="0dp"
         app:layout_collapseMode="pin"
         app:layout_scrollFlags="scroll|enterAlways">
@@ -64,24 +58,6 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:visibility="@{isTitleShow ? View.VISIBLE : View.GONE , default=gone}"/>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgRightBtn"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:paddingHorizontal="8dp"
-                android:onClick="@{(v)->topBarClickListener.onTopBarClickListener(v,@string/top_bar_right_btn)}"
-                android:src="@drawable/casting_disabled"
-                android:visibility="@{isLeftMenuShow ? View.VISIBLE : View.GONE , default=gone}" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgRightMenu"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:paddingHorizontal="8dp"
-                android:onClick="@{(v)->topBarClickListener.onTopBarClickListener(v,@string/top_bar_right_menu)}"
-                android:src="@drawable/menu_vertical"
-                android:visibility="@{isLeftMenuShow ? View.VISIBLE : View.GONE , default=gone}" />
 
         </LinearLayout>
 

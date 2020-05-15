@@ -1,15 +1,12 @@
 package com.nds.droidtv.ui.serieslist
 
-import android.app.Activity
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
-import com.nds.droidtv.MainActivity
 import com.nds.droidtv.adapters.SeriesDialogAdapter
 import com.nds.droidtv.adapters.SeriesListAdapter
 import com.nds.droidtv.common.views.SeriesListDialog
@@ -28,7 +25,6 @@ class SeriesListFragment : Fragment() , SeriesListViewModelCallback, SeriesDialo
         fun newInstance() = SeriesListFragment()
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,19 +33,18 @@ class SeriesListFragment : Fragment() , SeriesListViewModelCallback, SeriesDialo
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         SeriesListViewModel(this).loadData()
         init()
     }
 
-
     private fun init() {
         val topbar = binding.topBar
+        (activity as AppCompatActivity).setSupportActionBar(topbar.toolbar)
+        setHasOptionsMenu(true)
         topbar.topBarClickListener = TopBarClickHandler()
         topbar.isLeftMenuShow = true
-        topbar.isRightBtnShow = true
-        topbar.isRightMenuShow = true
         topbar.title.text = getString(R.string.series_list_top_bar_title)
         topbar.isTitleShow = true
 
@@ -99,5 +94,27 @@ class SeriesListFragment : Fragment() , SeriesListViewModelCallback, SeriesDialo
     override fun clickOnDialogItem(data: String) {
         Toast.makeText(activity, "item $data clicked.", Toast.LENGTH_SHORT).show()
         dialog.dismiss()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.toolbar_popup_menu, menu);
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.castToTv -> {
+                Toast.makeText(context, "Cast to Tv clicked.", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.castingBtn -> {
+                Toast.makeText(context, "Casting button clicked.", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.preferences -> {
+                Toast.makeText(context, "Preferences clicked.", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/castToTv"
+        android:title="@string/cast_to_tv"/>
+    <item android:id="@+id/preferences"
+        android:title="@string/preferences"/>
+    <item android:id="@+id/castingBtn"
+        android:title="@string/casting_btn"
+        android:icon="@drawable/casting_enabled"
+        app:showAsAction="ifRoom"/>
+</menu>

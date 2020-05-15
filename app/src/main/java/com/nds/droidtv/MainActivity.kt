@@ -1,7 +1,7 @@
 package com.nds.droidtv
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.nds.droidtv.ui.serieslist.SeriesListFragment
 import com.nds.droidtv2.R
 

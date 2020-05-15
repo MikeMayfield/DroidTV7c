@@ -6,7 +6,12 @@
     <string name="top_bar_right_menu">Right menu</string>
     <string name="top_bar_right_btn">Right button</string>
     <string name="series_list_top_bar_title">Primetime</string>
-    
+
+    // TopBar popup menu item
+    <string name="cast_to_tv">Cast to Tv</string>
+    <string name="preferences">Preferences</string>
+    <string name="casting_btn">Casting button</string>
+
     // Dialog items
     <string name="more_information">More information</string>
     <string name="play_next_episode">Play next episode</string>
