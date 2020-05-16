@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">DroidTV</string>
 
+    <string name="search_box_hint">Enter show title</string>
+
     // TopBar items
     <string name="top_bar_left_menu">Left menu</string>
     <string name="top_bar_right_menu">Right menu</string>

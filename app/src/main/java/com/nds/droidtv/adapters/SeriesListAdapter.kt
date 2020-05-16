@@ -42,13 +42,13 @@ class SeriesListAdapter(series: ArrayList<Series>) : RecyclerView.Adapter<Series
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val seriesObj: Series = totalSeries[position]
+
         val seriesPoster = holder.binding.imgItem
 
         seriesPoster.placeholderUrl = seriesObj.posterPlaceholderUri
         seriesPoster.posterUrl = seriesObj.posterUri
         seriesPoster.isFavorite = seriesObj.isFavorite
         seriesPoster.isPlayable = seriesObj.nextPlayableEpisodeId != 0
-        seriesPoster.nextPlayableEpisodeId = seriesObj.nextPlayableEpisodeId
         seriesPoster.numberOfRecordings = seriesObj.numberOfRecordings
         seriesPoster.numberOfPlayableRecordings = seriesObj.numberOfPlayableRecordings
 
@@ -56,7 +56,9 @@ class SeriesListAdapter(series: ArrayList<Series>) : RecyclerView.Adapter<Series
             clickEventListener.onItemLongPress(position)
             true
         }
-        seriesPoster.setOnClickListener {
+
+        if (seriesObj.nextPlayableEpisodeId != 0) holder.binding.playNextItem.setImageResource(R.drawable.poster_play_button)
+        holder.binding.playNextItem.setOnClickListener {
             clickEventListener.onItemClick(position)
         }
     }

@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <data>
-
         <import type="android.view.View" />
-
         <variable
             name="isLeftMenuShow"
             type="java.lang.Boolean" />
-
         <variable
             name="isTitleShow"
             type="java.lang.Boolean" />
-
         <variable
             name="topBarClickListener"
             type="com.nds.droidtv.interfaces.TopBarClickListener" />
-
     </data>
 
 
@@ -35,7 +30,6 @@
         app:layout_scrollFlags="scroll|enterAlways">
 
         <LinearLayout
-            android:id="@+id/llTopbar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:gravity="center_vertical">
@@ -54,8 +48,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimaryDark"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="@{isTitleShow ? View.VISIBLE : View.GONE , default=gone}"/>
 

@@ -20,7 +20,6 @@ class SeriesPosterCustomView @JvmOverloads constructor(context: Context, attrs: 
     var isFavorite: Boolean
     var recordingStatus: Int
     var isPlayable: Boolean
-    var nextPlayableEpisodeId: Int
     var castingIsEnabled: Boolean
     var numberOfRecordings: Int
     var numberOfPlayableRecordings: Int
@@ -32,7 +31,6 @@ class SeriesPosterCustomView @JvmOverloads constructor(context: Context, attrs: 
         isFavorite = typArray.getBoolean(R.styleable.SeriesPosterCustomView_isFavorite, false)
         recordingStatus = typArray.getInt(R.styleable.SeriesPosterCustomView_recordingStatus, 0)
         isPlayable = typArray.getBoolean(R.styleable.SeriesPosterCustomView_isPlayable, false)
-        nextPlayableEpisodeId = typArray.getInt(R.styleable.SeriesPosterCustomView_nextPlayableEpisodeId, 0)
         castingIsEnabled = typArray.getBoolean(R.styleable.SeriesPosterCustomView_castingIsEnabled, false)
         numberOfRecordings = typArray.getInt(R.styleable.SeriesPosterCustomView_numberOfRecordings, 0)
         numberOfPlayableRecordings = typArray.getInt(R.styleable.SeriesPosterCustomView_numberOfPlayableRecordings, 0)
@@ -55,7 +53,6 @@ class SeriesPosterCustomView @JvmOverloads constructor(context: Context, attrs: 
         val res = resources
 
         drawFavoriteIcon(res, canvas, paint, dpToPix(4), dpToPix(4))
-        playNextEpisodeIcon(res, canvas, paint, w/2 - dpToPix(12), h/2)
         numberOfRecordingsIcon(res, canvas, paint, dpToPix(4), h - dpToPix(28))
         numberOfPlayableRecordingsIcon(res, canvas, paint, w - dpToPix(28), h - dpToPix(28))
 
@@ -64,12 +61,6 @@ class SeriesPosterCustomView @JvmOverloads constructor(context: Context, attrs: 
     private fun drawFavoriteIcon(res: Resources, canvas: Canvas?, paint: Paint, left: Int, top: Int) {
         if (isFavorite) {
             drawWithCanvas(res, R.drawable.poster_favorite_overlay, canvas, paint, left.toFloat(), top.toFloat())
-        }
-    }
-
-    private fun playNextEpisodeIcon(res: Resources, canvas: Canvas?, paint: Paint, left: Int, top: Int) {
-        if (isPlayable) {
-            drawWithCanvas(res, R.drawable.poster_play_button, canvas, paint, left.toFloat(), top.toFloat())
         }
     }
 

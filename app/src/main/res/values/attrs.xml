@@ -6,7 +6,6 @@
         <attr name="isFavorite" format="boolean"/>
         <attr name="recordingStatus" format="integer"/>
         <attr name="isPlayable" format="boolean"/>
-        <attr name="nextPlayableEpisodeId" format="integer"/>
         <attr name="castingIsEnabled" format="boolean"/>
         <attr name="numberOfRecordings" format="integer"/>
         <attr name="numberOfPlayableRecordings" format="integer"/>
