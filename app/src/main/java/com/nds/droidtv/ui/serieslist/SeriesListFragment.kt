@@ -104,7 +104,7 @@ class SeriesListFragment : Fragment() , SeriesListViewModelCallback, SeriesDialo
             }
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {
-                searchForSeries(s.toString(), false, false)
+                searchForSeries(s.toString(), favoriteFilter, playableFilter)
             }
         })
         binding.favoriteFilterImg.setOnClickListener {
