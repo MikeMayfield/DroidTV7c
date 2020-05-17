@@ -6,8 +6,19 @@ import com.nds.droidtv.models.Series
 import java.util.ArrayList
 
 class SeriesListViewModel(private val callback: SeriesListViewModelCallback) : ViewModel() {
+
+    lateinit var searchText: String
+    var favoritesFilterIsEnabled: Boolean = false
+    var playableFilterIsEnabled: Boolean = false
+
+    val seriesList = MockSeriesData.seriesData()
+
     fun loadData() {
-        callback.onDataFetched(MockSeriesData.seriesData())
+        callback.onDataFetched(seriesList)
+    }
+
+    private fun search(searchText: String, favoriteFilterIsEnabled: Boolean, playableFilterIsEnabled: Boolean) {
+
     }
 }
 

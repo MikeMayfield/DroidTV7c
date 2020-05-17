@@ -48,7 +48,7 @@ class SeriesListAdapter(series: ArrayList<Series>) : RecyclerView.Adapter<Series
         seriesPoster.placeholderUrl = seriesObj.posterPlaceholderUri
         seriesPoster.posterUrl = seriesObj.posterUri
         seriesPoster.isFavorite = seriesObj.isFavorite
-        seriesPoster.isPlayable = seriesObj.nextPlayableEpisodeId != 0
+        if (seriesObj.newEpisodesShouldBeRecorded) seriesPoster.recordingStatus = 1 else seriesPoster.recordingStatus = 0
         seriesPoster.numberOfRecordings = seriesObj.numberOfRecordings
         seriesPoster.numberOfPlayableRecordings = seriesObj.numberOfPlayableRecordings
 
@@ -57,9 +57,11 @@ class SeriesListAdapter(series: ArrayList<Series>) : RecyclerView.Adapter<Series
             true
         }
 
-        if (seriesObj.nextPlayableEpisodeId != 0) holder.binding.playNextItem.setImageResource(R.drawable.poster_play_button)
-        holder.binding.playNextItem.setOnClickListener {
-            clickEventListener.onItemClick(position)
+        if (seriesObj.nextPlayableEpisodeId != 0) {
+            holder.binding.playNextItem.setImageResource(R.drawable.poster_play_button)
+            holder.binding.playNextItem.setOnClickListener {
+                clickEventListener.onItemClick(position)
+            }
         }
     }
 }

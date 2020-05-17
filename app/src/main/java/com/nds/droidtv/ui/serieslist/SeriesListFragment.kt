@@ -1,10 +1,13 @@
 package com.nds.droidtv.ui.serieslist
 
+import android.content.res.Configuration
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.nds.droidtv.adapters.SeriesDialogAdapter
 import com.nds.droidtv.adapters.SeriesListAdapter
@@ -12,7 +15,7 @@ import com.nds.droidtv.common.views.SeriesListDialog
 import com.nds.droidtv.models.Series
 import com.nds.droidtv2.R
 import com.nds.droidtv2.databinding.FragmentSeriesListPortraitBinding
-import java.util.ArrayList
+import java.util.*
 
 class SeriesListFragment : Fragment() , SeriesListViewModelCallback, SeriesDialogAdapter.DialogItemClickListener {
     private lateinit var binding: FragmentSeriesListPortraitBinding
@@ -38,9 +41,16 @@ class SeriesListFragment : Fragment() , SeriesListViewModelCallback, SeriesDialo
     }
 
     private fun init() {
-        binding.rvSeriesList.apply {
-            layoutManager = GridLayoutManager(activity, 4)
-            adapter = seriesAdapter
+        if (activity!!.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            binding.rvSeriesList.apply {
+                layoutManager = GridLayoutManager(activity, 4)
+                adapter = seriesAdapter
+            }
+        } else {
+            binding.rvSeriesList.apply {
+                layoutManager = GridLayoutManager(activity, 7)
+                adapter = seriesAdapter
+            }
         }
     }
 
@@ -54,7 +64,7 @@ class SeriesListFragment : Fragment() , SeriesListViewModelCallback, SeriesDialo
                 val items = ArrayList<String>()
                 items.add(getString(R.string.more_information))
                 if (series[pos].nextPlayableEpisodeId != 0) items.add(getString(R.string.play_next_episode))
-                items.add(getString(R.string.record_new_episodes))
+                if (series[pos].newEpisodesShouldBeRecorded) items.add(getString(R.string.record_new_episodes))
                 items.add(getString(R.string.record_all_episodes))
                 items.add(getString(R.string.record_new_episodes_DVR))
                 items.add(getString(R.string.record_all_episodes_DVR))

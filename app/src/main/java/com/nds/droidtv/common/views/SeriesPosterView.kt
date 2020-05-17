@@ -20,6 +20,7 @@ class SeriesPosterCustomView @JvmOverloads constructor(context: Context, attrs: 
     var isFavorite: Boolean
     var recordingStatus: Int
     var isPlayable: Boolean
+    var nextPlayableEpisodeId: Int
     var castingIsEnabled: Boolean
     var numberOfRecordings: Int
     var numberOfPlayableRecordings: Int
@@ -31,6 +32,7 @@ class SeriesPosterCustomView @JvmOverloads constructor(context: Context, attrs: 
         isFavorite = typArray.getBoolean(R.styleable.SeriesPosterCustomView_isFavorite, false)
         recordingStatus = typArray.getInt(R.styleable.SeriesPosterCustomView_recordingStatus, 0)
         isPlayable = typArray.getBoolean(R.styleable.SeriesPosterCustomView_isPlayable, false)
+        nextPlayableEpisodeId = typArray.getInt(R.styleable.SeriesPosterCustomView_nextPlayableEpisodeId, 0)
         castingIsEnabled = typArray.getBoolean(R.styleable.SeriesPosterCustomView_castingIsEnabled, false)
         numberOfRecordings = typArray.getInt(R.styleable.SeriesPosterCustomView_numberOfRecordings, 0)
         numberOfPlayableRecordings = typArray.getInt(R.styleable.SeriesPosterCustomView_numberOfPlayableRecordings, 0)
@@ -53,9 +55,14 @@ class SeriesPosterCustomView @JvmOverloads constructor(context: Context, attrs: 
         val res = resources
 
         drawFavoriteIcon(res, canvas, paint, dpToPix(4), dpToPix(4))
-        numberOfRecordingsIcon(res, canvas, paint, dpToPix(4), h - dpToPix(28))
-        numberOfPlayableRecordingsIcon(res, canvas, paint, w - dpToPix(28), h - dpToPix(28))
+        drawNumberOfRecordingsIcon(res, canvas, paint, dpToPix(4), h - dpToPix(28))
+        drawNumberOfPlayableRecordingsIcon(res, canvas, paint, w - dpToPix(28), h - dpToPix(28))
+        drawRecordingStatusIcon(res, canvas, paint, w - dpToPix(28), dpToPix(4))
 
+    }
+
+    private fun drawRecordingStatusIcon(res: Resources, canvas: Canvas?, paint: Paint, left: Int, top: Int) {
+        if (recordingStatus == 1) drawWithCanvas(res, R.drawable.poster_status_overlay_1, canvas, paint, left.toFloat(), top.toFloat())
     }
 
     private fun drawFavoriteIcon(res: Resources, canvas: Canvas?, paint: Paint, left: Int, top: Int) {
@@ -64,7 +71,7 @@ class SeriesPosterCustomView @JvmOverloads constructor(context: Context, attrs: 
         }
     }
 
-    private fun numberOfRecordingsIcon(res: Resources, canvas: Canvas?, paint: Paint, left: Int, top: Int) {
+    private fun drawNumberOfRecordingsIcon(res: Resources, canvas: Canvas?, paint: Paint, left: Int, top: Int) {
         when (numberOfRecordings) {
             0 -> drawWithCanvas(res, R.drawable.poster_recording_count_0, canvas, paint, left.toFloat(), top.toFloat())
             1 -> drawWithCanvas(res, R.drawable.poster_recording_count_1, canvas, paint, left.toFloat(), top.toFloat())
@@ -80,7 +87,7 @@ class SeriesPosterCustomView @JvmOverloads constructor(context: Context, attrs: 
         }
     }
 
-    private fun numberOfPlayableRecordingsIcon(res: Resources, canvas: Canvas?, paint: Paint, left: Int, top: Int) {
+    private fun drawNumberOfPlayableRecordingsIcon(res: Resources, canvas: Canvas?, paint: Paint, left: Int, top: Int) {
         when (numberOfPlayableRecordings) {
             0 -> drawWithCanvas(res, R.drawable.poster_playable_count_0, canvas, paint, left.toFloat(), top.toFloat())
             1 -> drawWithCanvas(res, R.drawable.poster_playable_count_1, canvas, paint, left.toFloat(), top.toFloat())
