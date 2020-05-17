@@ -2,7 +2,8 @@
     <string name="app_name">DroidTV</string>
 
     <string name="search_box_hint">Enter show title</string>
-
+    <string name="no_series_search_result">There are no search results to display.\nTry different search text, different favorites or playable filters, or a different category above.
+</string>
     // TopBar items
     <string name="top_bar_left_menu">Left menu</string>
     <string name="top_bar_right_menu">Right menu</string>

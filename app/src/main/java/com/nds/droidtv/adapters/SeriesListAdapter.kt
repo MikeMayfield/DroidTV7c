@@ -26,6 +26,11 @@ class SeriesListAdapter(series: ArrayList<Series>) : RecyclerView.Adapter<Series
         this.clickEventListener = eventListener
     }
 
+    fun updateList(newList: ArrayList<Series>) {
+        totalSeries.clear()
+        totalSeries.addAll(newList)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)

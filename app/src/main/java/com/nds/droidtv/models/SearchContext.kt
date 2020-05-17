@@ -75,11 +75,11 @@ class SearchContext {
     @VisibleForTesting fun performSearch(category: SearchCategory,
                                              searchText: String,
                                              favoritesFilterIsEnabled: Boolean,
-                                             playableFilterIsEnabled: Boolean) {
-        val searchResult = getSeriesListFromDb(category, searchText)
+                                             playableFilterIsEnabled: Boolean): List<Series> {
+        return getSeriesListFromDb(category, searchText)
             .filter { includeOnlySeriesThatMeetFilters(it, category, favoritesFilterIsEnabled, playableFilterIsEnabled) }
             .sortedBy { it.sortableTitle }
-        mutableSeriesList.postValue(searchResult)
+        //mutableSeriesList.postValue(searchResult)
     }
 
     /**
