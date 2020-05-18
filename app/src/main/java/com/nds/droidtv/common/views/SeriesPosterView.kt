@@ -11,6 +11,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.nds.droidtv2.R
 
+private const val WIDTH_ICON_SIZE = 20
+private const val HEIGHT_ICON_SIZE = 20
+private const val MARGIN_SIZE = 4
 
 class SeriesPosterCustomView @JvmOverloads constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int = 0) :
     androidx.appcompat.widget.AppCompatImageView(context, attrs, defStyleAttr) {
@@ -54,10 +57,10 @@ class SeriesPosterCustomView @JvmOverloads constructor(context: Context, attrs: 
         val paint = Paint()
         val res = resources
 
-        drawFavoriteIcon(res, canvas, paint, dpToPix(4), dpToPix(4))
-        drawNumberOfRecordingsIcon(res, canvas, paint, dpToPix(4), h - dpToPix(28))
-        drawNumberOfPlayableRecordingsIcon(res, canvas, paint, w - dpToPix(28), h - dpToPix(28))
-        drawRecordingStatusIcon(res, canvas, paint, w - dpToPix(28), dpToPix(4))
+        drawFavoriteIcon(res, canvas, paint, dpToPix(MARGIN_SIZE), dpToPix(MARGIN_SIZE))
+        drawNumberOfRecordingsIcon(res, canvas, paint, dpToPix(MARGIN_SIZE), h - dpToPix(MARGIN_SIZE + HEIGHT_ICON_SIZE))
+        drawNumberOfPlayableRecordingsIcon(res, canvas, paint, w - dpToPix(MARGIN_SIZE + WIDTH_ICON_SIZE), h - dpToPix(MARGIN_SIZE + HEIGHT_ICON_SIZE))
+        drawRecordingStatusIcon(res, canvas, paint, w - dpToPix(MARGIN_SIZE + WIDTH_ICON_SIZE), dpToPix(MARGIN_SIZE))
 
     }
 
@@ -106,7 +109,7 @@ class SeriesPosterCustomView @JvmOverloads constructor(context: Context, attrs: 
     private fun drawWithCanvas(res: Resources, drawable: Int, canvas: Canvas?, paint: Paint, left: Float, top: Float) {
         val posterNumberOfRecordings =
             BitmapFactory.decodeResource(res, drawable)
-        canvas?.drawBitmap(Bitmap.createScaledBitmap(posterNumberOfRecordings, dpToPix(24), dpToPix(24), false), left, top, paint)
+        canvas?.drawBitmap(Bitmap.createScaledBitmap(posterNumberOfRecordings, dpToPix(WIDTH_ICON_SIZE), dpToPix(HEIGHT_ICON_SIZE), false), left, top, paint)
     }
 
     private fun dpToPix(dp: Int): Int {
